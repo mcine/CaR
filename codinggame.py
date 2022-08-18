@@ -6,18 +6,25 @@ import time
 
 X=0
 Y=1
+script_filename = "code.py"
+level_filename = "level1.lvl"
+
+def handleArgument(a):
+    global script_filename, level_filename
+    if ".py" in a:
+        script_filename = a
+    if ".lvl" in a:
+        level_filename = a
 
 args = sys.argv[1:]
+for arg in args:
+    handleArgument(arg)
 
-print ('Argument List:', args)
+## read user code    
 globals_ = {'num':0, 'print': print}
 script_locals = {}
-script_filename = args[0] if len(args)>0 else ""
-if(".py" not in script_filename):
-    script_filename = "code.py"
 exec(open(script_filename).read(), globals_, script_locals)
 print("\n", script_locals)
-#script_locals["getRobotTargets"]()
 if "getRobotTargets" not in script_locals:
     print("Needed function not implemented, check your script")
     sys.exit(-1)
@@ -28,24 +35,21 @@ SCREEN_WIDTH = 1080
 SCREEN_FPS : int = 30
 MAP_HEIGHT = 8
 MAP_WIDTH = 8
-TILE_WIDTH = int(SCREEN_WIDTH / MAP_WIDTH)
-TILE_HEIGHT = int(SCREEN_HEIGHT / MAP_HEIGHT)
 PLAYER_DIRECTION : float = math.radians(5)
 PLAYER_SPEED = 0
 PLAYER_MAX_SPEED = 100
 RAY_MAX_LENGTH = math.sqrt(MAP_HEIGHT*MAP_HEIGHT + MAP_WIDTH*MAP_WIDTH)
 RAY_LENGTH = 0;
 GOAL_SIZE = 20
-MAP = (
-    '########'
-    '#  # G  #'
-    '#P #   #'
-    '#     ##'
-    '#      #'
-    '#  #   #'
-    '#  #   #'
-    '########'
-)
+
+lvlfile = open(level_filename, 'r')
+MAP = lvlfile.readlines()
+MAP_WIDTH = len(MAP[0])-1 # discard \n
+MAP_HEIGHT = len(MAP)
+MAP = ''.join(MAP)
+MAP = MAP.replace('\n','')
+TILE_WIDTH = int(SCREEN_WIDTH / MAP_WIDTH)
+TILE_HEIGHT = int(SCREEN_HEIGHT / MAP_HEIGHT)
 
 FOW = pygame.Surface((MAP_WIDTH*TILE_WIDTH, MAP_HEIGHT*TILE_HEIGHT),  pygame.SRCALPHA)
 FOW.fill((0,0,0))
@@ -59,6 +63,7 @@ def get_position(character):
             if(MAP[index] == character):
                 return (int(col * TILE_WIDTH + TILE_WIDTH / 2 ), int(row * TILE_HEIGHT + TILE_HEIGHT / 2))
     (int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
+
 
 
 

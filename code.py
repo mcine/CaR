@@ -13,7 +13,7 @@ def getRobotTargets(currentState, targets):
         else:
             targets["PLAYER_SPEED"] = currentState["PLAYER_MAX_SPEED"] / 2
     else:
-        x = 3
+        x = 8
         targets["PLAYER_DIRECTION"] = currentState["PLAYER_DIRECTION"] + x
         targets["PLAYER_SPEED"] = 0
         turnAmount -= x

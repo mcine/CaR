@@ -231,7 +231,7 @@ if __name__ == "__main__":
         
         if(isWithinRange(PLAYER_POSITION, GOAL_POSITION, GOAL_SIZE)):
             print("GOAL!!!!!!")
-            print("you made it in ")
+            print("you made it, try to solve another level ")
             print(start-time.time())
             pygame.quit()
             sys.exit(0)

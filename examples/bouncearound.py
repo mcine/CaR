@@ -3,10 +3,10 @@ def start():
 
 isTurning = False;
 turnAmount = 0;
-
+visitedTiles = [];
 #modify and return the targets
 def getRobotTargets(currentState, targets):    
-    global turnAmount, isTurning
+    global turnAmount, isTurning, visitedTiles
     if(not isTurning):
         if(targets["PLAYER_SPEED"] > currentState["PLAYER_SPEED"]):  # forced to slow before wall
             isTurning = True
@@ -20,6 +20,10 @@ def getRobotTargets(currentState, targets):
         turnAmount -= x
         if (turnAmount<0):
             isTurning = False
-    
+            
+    currentTile = (int(currentState['PLAYER_POSITION'][0]/currentState['TILE_WIDTH']),int(currentState['PLAYER_POSITION'][1]/currentState['TILE_HEIGHT'])) 
+    if(currentTile not in visitedTiles):
+        visitedTiles.append(currentTile)
     #print(currentState, targets)
+    #print(visitedTiles)
     return targets

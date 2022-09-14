@@ -1,4 +1,5 @@
-
+def start():
+    pass
 
 isTurning = False;
 turnAmount = 0;

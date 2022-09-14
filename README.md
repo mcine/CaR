@@ -14,4 +14,4 @@ happy coding!
 
 python3, uses pygame
 
-run python codinggame.py code.py
+run "python .\codinggame.py level2.lvl examples\bouncearound.py"

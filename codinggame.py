@@ -31,8 +31,9 @@ script_object = compile(open(script_filename).read(), "scriptstr", "exec")
 exec(script_object, globals_, script_locals)
 
 #print(globals_)
-
+script_locals.update(globals_)
 idx = script_object.co_consts.index('start') -1
+print(idx)
 if(idx>=0): 
     types.FunctionType(script_object.co_consts[idx], globals=script_locals)()
 

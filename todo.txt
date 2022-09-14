@@ -1,6 +1,3 @@
 - jos turnamount miinusmerkkinen, ei toimi.. tai ainakin kulma pitää muuttaa miinusmerkkisestä pois.
 - vuotoa seinien läpi kummallisiissa kohdissa..
-- includet pitää olla loop funktion sisällä.. pitäisi saada environmenttii
-- voiko käyttää globaalia muuttujaa scriptissä ?
-- olis hyvä olla setup-funktio ja loop erikseen
 - gridin ja siinä käydyt kohdat voisi jakaa scriptille.

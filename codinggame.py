@@ -3,6 +3,7 @@ import pygame
 import sys
 import math
 import time
+import types
 
 X=0
 Y=1
@@ -23,12 +24,27 @@ for arg in args:
 ## read user code    
 globals_ = {'num':0, 'print': print}
 script_locals = {}
-exec(open(script_filename).read(), globals_, script_locals)
-print("\n", script_locals)
-if "getRobotTargets" not in script_locals:
+
+
+
+script_object = compile(open(script_filename).read(), "scriptstr", "exec")
+exec(script_object, globals_, script_locals)
+
+#print(globals_)
+
+idx = script_object.co_consts.index('start') -1
+if(idx>=0): 
+    types.FunctionType(script_object.co_consts[idx], globals=script_locals)()
+
+idx = script_object.co_consts.index('getRobotTargets') -1
+updatefunc = script_object.co_consts[idx];
+#result = types.FunctionType(updatefunc, globals=script_locals)({},{})
+#print("ret", result)
+#exec(updatefunc, globals_, script_locals)
+#if "getRobotTargets" not in locals():
+if (idx < 0):    
     print("Needed function not implemented, check your script")
     sys.exit(-1)
-
 
 SCREEN_HEIGHT = 720
 SCREEN_WIDTH = 1080
@@ -173,16 +189,15 @@ def draw_ray(fromx_coord:float, fromy_coord:float, angle):
 currentTargets = {"PLAYER_SPEED":0, "PLAYER_DIRECTION":math.degrees(PLAYER_DIRECTION)}
 
 def updatePlayer(collisionpoint):
-    global PLAYER_POSITION, TILE_HEIGHT, TILE_WIDTH, PLAYER_SPEED, PLAYER_MAX_SPEED, PLAYER_DIRECTION, SCREEN_FPS, currentTargets
+    global PLAYER_POSITION, TILE_HEIGHT, TILE_WIDTH, PLAYER_SPEED, PLAYER_MAX_SPEED, PLAYER_DIRECTION, SCREEN_FPS, currentTargets, updatefunc
     dx = collisionpoint[X]*TILE_WIDTH - PLAYER_POSITION[X]
     dy = collisionpoint[Y]*TILE_HEIGHT - PLAYER_POSITION[Y]
     raylength = math.sqrt(dx*dx + dy*dy)
     currentData = {"SCREEN_HEIGHT":SCREEN_HEIGHT, "SCREEN_WIDTH":SCREEN_WIDTH, "SCREEN_FPS":SCREEN_FPS, "PLAYER_DIRECTION": math.degrees(PLAYER_DIRECTION), 
                     "RAY_LENGTH":raylength, "PLAYER_POSITION":PLAYER_POSITION, "TILE_HEIGHT":TILE_HEIGHT, "TILE_WIDTH":TILE_WIDTH, "PLAYER_SPEED":PLAYER_SPEED,
                     "PLAYER_MAX_SPEED":PLAYER_MAX_SPEED, "GOAL_POSITION":GOAL_POSITION}
-
-
-    currentTargets = script_locals["getRobotTargets"](currentData, currentTargets)
+    currentTargets = types.FunctionType(updatefunc, globals=script_locals)(currentData, currentTargets)    
+    
     if(currentTargets["PLAYER_SPEED"] < 0):
         currentTargets["PLAYER_SPEED"] = 0;
     elif(currentTargets["PLAYER_SPEED"] > PLAYER_MAX_SPEED):
@@ -209,6 +224,8 @@ def isWithinRange(pos1, pos2, range):
 
 start = time.time()
 
+
+
 if __name__ == "__main__":
     while True:
         for event in pygame.event.get():
@@ -232,7 +249,7 @@ if __name__ == "__main__":
         if(isWithinRange(PLAYER_POSITION, GOAL_POSITION, GOAL_SIZE)):
             print("GOAL!!!!!!")
             print("you made it, try to solve another level ")
-            print(start-time.time())
+            print(time.time()-start)
             pygame.quit()
             sys.exit(0)
         

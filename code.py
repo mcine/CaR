@@ -1,24 +1,19 @@
 
+import random
 
+def start():
+   # print('\n',locals())
+  #  print('\n',globals())
+    pass
 isTurning = False;
 turnAmount = 0;
 
 #modify and return the targets
 def getRobotTargets(currentState, targets):    
-    global turnAmount, isTurning
-    if(not isTurning):
-        if(targets["PLAYER_SPEED"] > currentState["PLAYER_SPEED"]):  # forced to slow before wall
-            isTurning = True
-            turnAmount = 360 + 45
-        else:
-            targets["PLAYER_SPEED"] = currentState["PLAYER_MAX_SPEED"] / 2
+    print('\n',currentState, targets, isTurning, turnAmount)
+    print(random.randint(0,10))
+    if("test" in targets and targets['test']=="test" ):
+        targets['test'] = 'TEST'
     else:
-        x = 8
-        targets["PLAYER_DIRECTION"] = currentState["PLAYER_DIRECTION"] + x
-        targets["PLAYER_SPEED"] = 0
-        turnAmount -= x
-        if (turnAmount<0):
-            isTurning = False
-    
-    #print(currentState, targets)
+        targets['test'] = "test"
     return targets

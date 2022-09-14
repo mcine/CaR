@@ -16,4 +16,5 @@ def getRobotTargets(currentState, targets):
         targets['test'] = 'TEST'
     else:
         targets['test'] = "test"
+    targets["PLAYER_DIRECTION"] = targets["PLAYER_DIRECTION"] - 5 
     return targets

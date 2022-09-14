@@ -213,6 +213,8 @@ def updatePlayer(collisionpoint):
     else:
         PLAYER_SPEED = 0
 
+    while(currentTargets["PLAYER_DIRECTION"] < 0):
+        currentTargets["PLAYER_DIRECTION"] = currentTargets["PLAYER_DIRECTION"] + 360
     PLAYER_DIRECTION=math.radians(currentTargets["PLAYER_DIRECTION"])
     PLAYER_DIRECTION = PLAYER_DIRECTION % math.radians(360)
 

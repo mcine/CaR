@@ -1,3 +1,2 @@
-- jos turnamount miinusmerkkinen, ei toimi.. tai ainakin kulma pitää muuttaa miinusmerkkisestä pois.
 - vuotoa seinien läpi kummallisiissa kohdissa..
 - gridin ja siinä käydyt kohdat voisi jakaa scriptille.

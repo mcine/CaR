@@ -52,10 +52,10 @@ SCREEN_WIDTH = 1080
 SCREEN_FPS : int = 30
 MAP_HEIGHT = 8
 MAP_WIDTH = 8
-PLAYER_DIRECTION : float = math.radians(5)
+PLAYER_DIRECTION : float = math.radians(272.5)
 PLAYER_SPEED = 0
 PLAYER_MAX_SPEED = 100
-RAY_MAX_LENGTH = math.sqrt(MAP_HEIGHT*MAP_HEIGHT + MAP_WIDTH*MAP_WIDTH)
+RAY_MAX_LENGTH = math.sqrt(MAP_HEIGHT*MAP_HEIGHT + MAP_WIDTH*MAP_WIDTH)*2
 RAY_LENGTH = 0;
 GOAL_SIZE = 20
 
@@ -160,12 +160,12 @@ def draw_ray(fromx_coord:float, fromy_coord:float, angle):
             fdistance = raylengths[Y]
             raylengths[Y] += unitstepsizes[Y]
     
+        #print("mapcheck: ", mapcheck[X], ",", mapcheck[Y])
         #if(mapcheck[X] > 0 and mapcheck[X]< MAP_WIDTH and mapcheck[Y]>0 and mapcheck[Y]<MAP_HEIGHT):
         if(MAP[mapcheck[Y]*MAP_WIDTH + mapcheck[X]] == '#'):
             tilefound = True;
     
     collisionpoint = PLAYER_POSITION
-    
     if(tilefound == True):
         collisionpoint = (fromx + dirx*fdistance, fromy + diry*fdistance)
         if(collisionpoint[Y] != oldcollision[Y]):
@@ -173,16 +173,20 @@ def draw_ray(fromx_coord:float, fromy_coord:float, angle):
         oldcollision = collisionpoint
         pygame.draw.circle(FOW, (255, 255, 255,0), (collisionpoint[X]*TILE_WIDTH, collisionpoint[Y]*TILE_HEIGHT ), 10)        
         
-    #to screen coordinates. 
-    pygame.draw.line(window, (255,55,55), (fromx_coord, fromy_coord), 
-                        (collisionpoint[X]*TILE_WIDTH, collisionpoint[Y]*TILE_HEIGHT), 
-                        #(fromx_coord - math.sin(angle)*50,fromy_coord + math.cos(angle) * 50),
-                        5) 
-    pygame.draw.line(FOW, (255,255,255,0), (fromx_coord, fromy_coord), 
-                        (collisionpoint[X]*TILE_WIDTH, collisionpoint[Y]*TILE_HEIGHT), 
-                        #(fromx_coord - math.sin(angle)*50,fromy_coord + math.cos(angle) * 50),
-                        5)   
-    return collisionpoint
+        #to screen coordinates. 
+        pygame.draw.line(window, (255,55,55), (fromx_coord, fromy_coord), 
+                            (collisionpoint[X]*TILE_WIDTH, collisionpoint[Y]*TILE_HEIGHT), 
+                            #(fromx_coord - math.sin(angle)*50,fromy_coord + math.cos(angle) * 50),
+                            5) 
+        pygame.draw.line(FOW, (255,255,255,0), (fromx_coord, fromy_coord), 
+                            (collisionpoint[X]*TILE_WIDTH, collisionpoint[Y]*TILE_HEIGHT), 
+                            #(fromx_coord - math.sin(angle)*50,fromy_coord + math.cos(angle) * 50),
+                            5)   
+        return collisionpoint
+    else:
+        print("Tile not found, error? pos: ", PLAYER_POSITION, "angle", math.degrees(angle) )
+        
+    return (fromx, fromy)
 
 currentTargets = {"PLAYER_SPEED":0, "PLAYER_DIRECTION":math.degrees(PLAYER_DIRECTION)}
 

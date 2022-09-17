@@ -1,2 +1,1 @@
 - vuotoa seinien läpi kummallisiissa kohdissa..
-- gridin ja siinä käydyt kohdat voisi jakaa scriptille.

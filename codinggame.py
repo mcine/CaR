@@ -75,14 +75,11 @@ FOW.set_alpha(255)
 
 def get_position(character):
     for row in range(0,MAP_HEIGHT):
-        for col in range(0,MAP_HEIGHT):
+        for col in range(0,MAP_WIDTH):
             index = row * MAP_WIDTH + col
             if(MAP[index] == character):
                 return (int(col * TILE_WIDTH + TILE_WIDTH / 2 ), int(row * TILE_HEIGHT + TILE_HEIGHT / 2))
     (int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
-
-
-
 
 pygame.init()
 window = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -92,7 +89,7 @@ clock = pygame.time.Clock()
 PLAYER_POSITION = get_position('P')
 GOAL_POSITION = get_position('G')
 
-print(PLAYER_POSITION)
+print("player pos:", PLAYER_POSITION)
 dir = (-math.sin(PLAYER_DIRECTION), math.cos(PLAYER_DIRECTION))
 print (dir)
 def draw_map():

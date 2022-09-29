@@ -7,7 +7,7 @@ def start():
     pass
 longestRay = 0;
 isTurning = False
-turnAmount = 0.03
+turnAmount = 4.4
 
 #modify and return the targets
 def getRobotTargets(currentState, targets):
